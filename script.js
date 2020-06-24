@@ -9,7 +9,6 @@ var board = [];        // This is an empty board
 var blockSize = 20;
 var moveFrameCount = 60;
 
-
 function setup() {
   createCanvas(800, 800);
   rectMode(CENTER);
@@ -23,7 +22,10 @@ function draw() {
     createNewShape()
   }
   // 3. Move the shape down if it is time to move
-
+  isReadyToMove();
+  if (isReadyToMove()) {
+    moveShape(fallingShape, 0, 1);
+  }
   // 4. if the shape couldn't move then move the shape from fallingShape to the board
 
   // 5. draw the board
@@ -44,15 +46,22 @@ function drawBackground() {
 
 function drawShape() {
   fill(fallingShape[0].c);
-  rect(fallingShape[0].x, fallingShape[0].y, blockSize, blockSize);
-}
-
-function moveShape(shape, rowsX, rowsY) {
-
+  rect(fallingShape[0].x * blockSize, fallingShape[0].y * blockSize, blockSize, blockSize);
 }
 
 function isReadyToMove() {
-  return true;
+  var remain = frameCount % moveFrameCount;
+  if (remain === 0) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function moveShape(shape, rowsX, rowsY) {
+  shape[0].x += rowsX
+  shape[0].y += rowsY
 }
 
 function isOverBoundary(shape) {
