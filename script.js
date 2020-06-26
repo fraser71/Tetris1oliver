@@ -3,7 +3,11 @@
 //   {x:0, y:0, c:color("red")}, 
 //   ...
 // ] 
-
+var boundaries = {
+  l: -10,
+  r: 10,
+  b: 20
+}
 var fallingShape = []  // This is a NON-shape <fallingShape.length == 0> 
 var board = [];        // This is an empty board
 var blockSize = 20;
@@ -17,6 +21,7 @@ function setup() {
 function draw() {
   // 1. Clear the screen and setup the background
   drawBackground();
+  drawBoundaries(boundaries);
   // 2. Create a shape if it doesn't exist
   if (fallingShape.length === 0) {
     createNewShape()
@@ -32,7 +37,6 @@ function draw() {
 
   // 6. draw the shape
   drawShape(fallingShape);
-
 
   // if (fallingShape.y > height - blockSize / 2) {
   //   fallingShape.y = 0
@@ -65,12 +69,7 @@ function moveShape(shape, rowsX, rowsY) {
 }
 
 function isOverBoundary(shape) {
-  if (fallingShape.y > height - blockSize / 2) {
-  return true;
-  }
-  else{
-    return false;
-  }
+  return false;
 }
 
 function createNewShape() {
@@ -81,6 +80,15 @@ function createNewShape() {
       c: color("red")
     }
   ];
+}
+
+function drawBoundaries(boundaries) {
+  //left
+  line(boundaries.l * blockSize, 0 * blockSize, boundaries.l * blockSize, boundaries.b * blockSize);
+  //right
+  line(boundaries.r * blockSize, 0 * blockSize, boundaries.r * blockSize, boundaries.b * blockSize);
+  //bottom
+  line(boundaries.l * blockSize, boundaries.b * blockSize, boundaries.r * blockSize, boundaries.b * blockSize);
 }
 
 function keyPressed() {
