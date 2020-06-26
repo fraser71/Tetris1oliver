@@ -4,9 +4,9 @@
 //   ...
 // ] 
 var boundaries = {
-  l: -10,
-  r: 10,
-  b: 20
+  l: -10.5,
+  r: 10.5,
+  b: 20.5
 }
 var fallingShape = []  // This is a NON-shape <fallingShape.length == 0> 
 var board = [];        // This is an empty board
@@ -30,6 +30,7 @@ function draw() {
   isReadyToMove();
   if (isReadyToMove()) {
     moveShape(fallingShape, 0, 1);
+
   }
   // 4. if the shape couldn't move then move the shape from fallingShape to the board
 
@@ -93,7 +94,8 @@ function drawBoundaries(boundaries) {
 
 function keyPressed() {
   print("keypressed")
-  if (keyCode === LEFT_ARROW) { x -= blockSize }
-  if (keyCode === RIGHT_ARROW) { x += blockSize }
-  if (keyCode === DOWN_ARROW) { rotate(45) }
+  if (keyCode === LEFT_ARROW) {moveShape(fallingShape, -1, 0);}
+  if (keyCode === RIGHT_ARROW) {moveShape(fallingShape, 1, 0); }
+  if (keyCode === DOWN_ARROW) {moveShape(fallingShape, 0, 1);}
+  //if (keyCode === UP_ARROW) {moveShape(fallingShape, 0, -1);}
 }
