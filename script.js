@@ -65,7 +65,12 @@ function moveShape(shape, rowsX, rowsY) {
 }
 
 function isOverBoundary(shape) {
-  return false;
+  if (fallingShape.y > height - blockSize / 2) {
+  return true;
+  }
+  else{
+    return false;
+  }
 }
 
 function createNewShape() {
