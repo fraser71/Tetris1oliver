@@ -31,8 +31,7 @@ function draw() {
     moveShape(fallingShape, 0, 1);
 
   }
-  // 4. if the shape couldn't move then move the shape from fallingShape to the board
-
+  
   // 5. draw the board
 
   // 6. draw the shape
@@ -72,9 +71,22 @@ function moveShape(shape, rowsX, rowsY) {
     shape[block].x += rowsX
     shape[block].y += rowsY
   }
+   // 4. if the shape couldn't move then move the shape from fallingShape to the board
+  if (isOverBoundary(fallingShape)) {
+    for (block in shape) {
+    shape[block].x -= rowsX
+    shape[block].y -= rowsY
+  }
+  }
 }
 
 function isOverBoundary(shape) {
+  for (var block in shape) {
+    if (fallingShape[block].x > boundaries.r || fallingShape[block].x < boundaries.l || fallingShape[block].y > boundaries.b) {
+      return true;
+    }
+
+  }
   return false;
 }
 
