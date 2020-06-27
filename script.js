@@ -12,7 +12,6 @@ var fallingShape = []  // This is a NON-shape <fallingShape.length == 0>
 var board = [];        // This is an empty board
 var blockSize = 20;
 var moveFrameCount = 60;
-
 function setup() {
   createCanvas(800, 800);
   rectMode(CENTER);
@@ -50,8 +49,12 @@ function drawBackground() {
 }
 
 function drawShape() {
-  fill(fallingShape[0].c);
-  rect(fallingShape[0].x * blockSize, fallingShape[0].y * blockSize, blockSize, blockSize);
+  var block;
+  for (block in fallingShape) {
+    fill(fallingShape[block].c);
+    rect(fallingShape[block].x * blockSize, fallingShape[block].y * blockSize, blockSize, blockSize);
+    //print(block);
+  }
 }
 
 function isReadyToMove() {
@@ -65,8 +68,10 @@ function isReadyToMove() {
 }
 
 function moveShape(shape, rowsX, rowsY) {
-  shape[0].x += rowsX
-  shape[0].y += rowsY
+  for (block in shape) {
+    shape[block].x += rowsX
+    shape[block].y += rowsY
+  }
 }
 
 function isOverBoundary(shape) {
@@ -78,6 +83,21 @@ function createNewShape() {
     {
       x: 0,
       y: 0,
+      c: color("red")
+    },
+    {
+      x: 1,
+      y: 0,
+      c: color("red")
+    },
+    {
+      x: -1,
+      y: 0,
+      c: color("red")
+    },
+    {
+      x: 0,
+      y: 1,
       c: color("red")
     }
   ];
@@ -93,9 +113,9 @@ function drawBoundaries(boundaries) {
 }
 
 function keyPressed() {
-  print("keypressed")
-  if (keyCode === LEFT_ARROW) {moveShape(fallingShape, -1, 0);}
-  if (keyCode === RIGHT_ARROW) {moveShape(fallingShape, 1, 0); }
-  if (keyCode === DOWN_ARROW) {moveShape(fallingShape, 0, 1);}
+  //print("keypressed")
+  if (keyCode === LEFT_ARROW) { moveShape(fallingShape, -1, 0); }
+  if (keyCode === RIGHT_ARROW) { moveShape(fallingShape, 1, 0); }
+  if (keyCode === DOWN_ARROW) { moveShape(fallingShape, 0, 1); }
   //if (keyCode === UP_ARROW) {moveShape(fallingShape, 0, -1);}
 }
