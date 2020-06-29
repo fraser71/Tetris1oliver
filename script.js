@@ -13,8 +13,9 @@ var board = [];        // This is an empty board
 var blockSize = 20;
 var moveFrameCount = 60;
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(800, 600);
   rectMode(CENTER);
+  angleMode(DEGREES)
 }
 
 function draw() {
@@ -31,7 +32,7 @@ function draw() {
     moveShape(fallingShape, 0, 1);
 
   }
-  
+
   // 5. draw the board
 
   // 6. draw the shape
@@ -71,12 +72,12 @@ function moveShape(shape, rowsX, rowsY) {
     shape[block].x += rowsX
     shape[block].y += rowsY
   }
-   // 4. if the shape couldn't move then move the shape from fallingShape to the board
+  // 4. if the shape couldn't move then move the shape from fallingShape to the board
   if (isOverBoundary(fallingShape)) {
     for (block in shape) {
-    shape[block].x -= rowsX
-    shape[block].y -= rowsY
-  }
+      shape[block].x -= rowsX
+      shape[block].y -= rowsY
+    }
   }
 }
 
@@ -115,6 +116,36 @@ function createNewShape() {
   ];
 }
 
+function rotatePoint(origin, point, angle) {
+  var ox = origin.x;
+  var oy = origin.y;
+  print(origin);
+  var sx = point.x;
+  var sy = point.y;
+  print(point);
+  var qx = ox + cos(angle) * (sx - ox) - sin(angle) * (sy - oy);
+  var qy = oy + sin(angle) * (sx - ox) + cos(angle) * (sy - oy);
+  print(qx, qy);
+  /*
+  Rotate a point counterclockwise by a given angle around a given origin.
+  The angle should be given in radians.
+  */
+  //rotatePoint(fallingShape[0], fallingShape[2], 90);
+  var answer = {
+    x: round(qx),
+    y: qy,
+    c: point.c
+  };
+  print(answer);
+  return answer;
+}
+
+function rotateShape(shape, degrees){
+  for (var d in shape) {
+    //first block is origin
+    rotatePoint(shape, fallingShape[d], degrees);
+  }
+}
 function drawBoundaries(boundaries) {
   //left
   line(boundaries.l * blockSize, 0 * blockSize, boundaries.l * blockSize, boundaries.b * blockSize);
