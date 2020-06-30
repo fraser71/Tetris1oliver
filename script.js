@@ -43,7 +43,7 @@ function draw() {
 }
 
 function drawBackground() {
-  background(220);
+  background(50,0,255);
   translate(width / 2, blockSize);
 }
 
@@ -122,6 +122,13 @@ function createNewShape() {
 }
 
 function rotatePoint(origin, point, angle) {
+  //print(qx, qy);
+  /*
+  Rotate a point counterclockwise by a given angle around a given origin.
+  The angle should be given in radians.
+  */
+  //rotatePoint(fallingShape[0], fallingShape[2], 90);
+  
   var ox = origin.x;
   var oy = origin.y;
   //print(origin);
@@ -130,12 +137,7 @@ function rotatePoint(origin, point, angle) {
   //print(point);
   var qx = ox + cos(angle) * (sx - ox) - sin(angle) * (sy - oy);
   var qy = oy + sin(angle) * (sx - ox) + cos(angle) * (sy - oy);
-  //print(qx, qy);
-  /*
-  Rotate a point counterclockwise by a given angle around a given origin.
-  The angle should be given in radians.
-  */
-  //rotatePoint(fallingShape[0], fallingShape[2], 90);
+
   var answer = {
     x: round(qx),
     y: round(qy),
