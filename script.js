@@ -30,9 +30,8 @@ function draw() {
   isReadyToMove();
   if (isReadyToMove()) {
     moveShape(fallingShape, 0, 1);
-
   }
-
+  rotateShape();
   // 5. draw the board
 
   // 6. draw the shape
@@ -81,6 +80,12 @@ function moveShape(shape, rowsX, rowsY) {
   }
 }
 
+
+
+//~~WARNING~~ YOU ARE NOW ENTERING A RESTRICTED AREA OF DEFINING FUNCTIONS! DO YOU WISH TO CONTINUE?
+
+
+
 function isOverBoundary(shape) {
   for (var block in shape) {
     if (fallingShape[block].x > boundaries.r || fallingShape[block].x < boundaries.l || fallingShape[block].y > boundaries.b) {
@@ -119,13 +124,13 @@ function createNewShape() {
 function rotatePoint(origin, point, angle) {
   var ox = origin.x;
   var oy = origin.y;
-  print(origin);
+  //print(origin);
   var sx = point.x;
   var sy = point.y;
-  print(point);
+  //print(point);
   var qx = ox + cos(angle) * (sx - ox) - sin(angle) * (sy - oy);
   var qy = oy + sin(angle) * (sx - ox) + cos(angle) * (sy - oy);
-  print(qx, qy);
+  //print(qx, qy);
   /*
   Rotate a point counterclockwise by a given angle around a given origin.
   The angle should be given in radians.
@@ -133,19 +138,29 @@ function rotatePoint(origin, point, angle) {
   //rotatePoint(fallingShape[0], fallingShape[2], 90);
   var answer = {
     x: round(qx),
-    y: qy,
+    y: round(qy),
     c: point.c
   };
-  print(answer);
+  //print(answer);
   return answer;
 }
 
-function rotateShape(shape, degrees){
-  for (var d in shape) {
+function rotateShape(shape, degrees) {
+  for (var block in shape) {
     //first block is origin
-    rotatePoint(shape, fallingShape[d], degrees);
+    if (block == 0) {
+      continue;
+    }
+    shape[block] = rotatePoint(shape[0], shape[block], degrees);
+    if (isOverBoundary(shape)) {
+      shape[block] = rotatePoint(shape[0], shape[block], -degrees);
+      return true;
+    }
   }
+  return false;
 }
+
+
 function drawBoundaries(boundaries) {
   //left
   line(boundaries.l * blockSize, 0 * blockSize, boundaries.l * blockSize, boundaries.b * blockSize);
@@ -160,5 +175,6 @@ function keyPressed() {
   if (keyCode === LEFT_ARROW) { moveShape(fallingShape, -1, 0); }
   if (keyCode === RIGHT_ARROW) { moveShape(fallingShape, 1, 0); }
   if (keyCode === DOWN_ARROW) { moveShape(fallingShape, 0, 1); }
-  //if (keyCode === UP_ARROW) {moveShape(fallingShape, 0, -1);}
+  if (keyCode === UP_ARROW) { rotateShape(fallingShape, -90); }
+  if (keyCode === 192) { moveShape(fallingShape, 0, -2); }
 }
