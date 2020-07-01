@@ -3,6 +3,7 @@
 //   {x:0, y:0, c:color("red")}, 
 //   ...
 // ] 
+
 var boundaries = {
   l: -10.5,
   r: 10.5,
@@ -12,10 +13,13 @@ var fallingShape = []  // This is a NON-shape <fallingShape.length == 0>
 var board = [];        // This is an empty board
 var blockSize = 20;
 var moveFrameCount = 60;
+
 function setup() {
   createCanvas(800, 600);
   rectMode(CENTER);
-  angleMode(DEGREES)
+  angleMode(DEGREES);
+  setupBoard();
+  print(board);
 }
 
 function draw() {
@@ -33,7 +37,9 @@ function draw() {
   }
   rotateShape();
   // 5. draw the board
-
+  addBlocks();
+  // fill(0)
+  // rect(board[0].x, board[0].y, 20, 20)
   // 6. draw the shape
   drawShape(fallingShape);
 
@@ -43,7 +49,7 @@ function draw() {
 }
 
 function drawBackground() {
-  background(50,0,255);
+  background(50, 0, 255);
   translate(width / 2, blockSize);
 }
 
@@ -128,7 +134,7 @@ function rotatePoint(origin, point, angle) {
   The angle should be given in radians.
   */
   //rotatePoint(fallingShape[0], fallingShape[2], 90);
-  
+
   var ox = origin.x;
   var oy = origin.y;
   //print(origin);
@@ -162,8 +168,44 @@ function rotateShape(shape, degrees) {
   return false;
 }
 
+function setupBoard() {
+  var boardWidth = boundaries.r - boundaries.l;
+  var boardHeight = boundaries.b + 0.5;
+  for (var rowNumbr = 0; rowNumbr < boardHeight; rowNumbr++) {
+    board[rowNumbr] = []
+  }
+}
+
+function addBlocks() {
+  /*board[0] = {
+    x: 0,
+    y: 0,
+    c: "red"
+  */
+}
+
+
+
+
+
+function detectCrash() {
+
+}
+
+function checkForFullRow() {
+
+}
+
+function deleteFullRow() {
+
+}
+
+function moveRowsDown() {
+
+}
 
 function drawBoundaries(boundaries) {
+  strokeWeight(4);
   //left
   line(boundaries.l * blockSize, 0 * blockSize, boundaries.l * blockSize, boundaries.b * blockSize);
   //right
@@ -179,4 +221,5 @@ function keyPressed() {
   if (keyCode === DOWN_ARROW) { moveShape(fallingShape, 0, 1); }
   if (keyCode === UP_ARROW) { rotateShape(fallingShape, -90); }
   if (keyCode === 192) { moveShape(fallingShape, 0, -2); }
+  if (keyCode === 82) { /*restart */ }
 }
