@@ -36,8 +36,9 @@ function draw() {
     moveShape(fallingShape, 0, 1);
   }
   rotateShape();
-  // 5. draw the board
   addBlocks();
+  // 5. draw the board
+  drawBoard();
   // fill(0)
   // rect(board[0].x, board[0].y, 20, 20)
   // 6. draw the shape
@@ -47,6 +48,15 @@ function draw() {
   //   fallingShape.y = 0
 
 }
+
+
+
+
+
+//~~WARNING~~ YOU ARE NOW ENTERING A RESTRICTED AREA OF DEFINING FUNCTIONS! DO YOU WISH TO CONTINUE?
+
+
+
 
 function drawBackground() {
   background(50, 0, 255);
@@ -62,36 +72,6 @@ function drawShape() {
   }
 }
 
-function isReadyToMove() {
-  var remain = frameCount % moveFrameCount;
-  if (remain === 0) {
-    return true;
-  }
-  else {
-    return false;
-  }
-}
-
-function moveShape(shape, rowsX, rowsY) {
-  for (block in shape) {
-    shape[block].x += rowsX
-    shape[block].y += rowsY
-  }
-  // 4. if the shape couldn't move then move the shape from fallingShape to the board
-  if (isOverBoundary(fallingShape)) {
-    for (block in shape) {
-      shape[block].x -= rowsX
-      shape[block].y -= rowsY
-    }
-  }
-}
-
-
-
-//~~WARNING~~ YOU ARE NOW ENTERING A RESTRICTED AREA OF DEFINING FUNCTIONS! DO YOU WISH TO CONTINUE?
-
-
-
 function isOverBoundary(shape) {
   for (var block in shape) {
     if (fallingShape[block].x > boundaries.r || fallingShape[block].x < boundaries.l || fallingShape[block].y > boundaries.b) {
@@ -100,6 +80,16 @@ function isOverBoundary(shape) {
 
   }
   return false;
+}
+
+function isReadyToMove() {
+  var remain = frameCount % moveFrameCount;
+  if (remain === 0) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 function createNewShape() {
@@ -126,6 +116,22 @@ function createNewShape() {
     }
   ];
 }
+
+
+function moveShape(shape, rowsX, rowsY) {
+  for (block in shape) {
+    shape[block].x += rowsX
+    shape[block].y += rowsY
+  }
+  // 4. if the shape couldn't move then move the shape from fallingShape to the board
+  if (isOverBoundary(fallingShape)) {
+    for (block in shape) {
+      shape[block].x -= rowsX
+      shape[block].y -= rowsY
+    }
+  }
+}
+
 
 function rotatePoint(origin, point, angle) {
   //print(qx, qy);
@@ -176,17 +182,40 @@ function setupBoard() {
   }
 }
 
-function addBlocks() {
-  /*board[0] = {
+function addBlocksToBoard(shape) {
+  //go through all blocks in shape and copy to board[][]
+  board[0][0] = {
     x: 0,
-    y: 0,
-    c: "red"
-  */
+    y: 20,
+    c: color("green")
+  },
+    board[0][1] = {
+      x: 2,
+      y: 20,
+      c: color("green")
+    },
+    board[0][2] = {
+      x: 1,
+      y: 20,
+      c: color("green")
+    },
+    board[0][3] = {
+      x: -1,
+      y: 20,
+      c: color("green")
+    }
+
 }
 
-
-
-
+function drawBoard() {
+  for (var row of board) {
+    for (var block of row) {
+      //if(frameCount < 100) print(block);
+      fill(block.c);
+      rect(block.x * blockSize, block.y * blockSize, blockSize, blockSize);
+    }
+  }
+}
 
 function detectCrash() {
 
