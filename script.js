@@ -19,7 +19,6 @@ function setup() {
   rectMode(CENTER);
   angleMode(DEGREES);
   setupBoard();
-  print(board);
 }
 
 function draw() {
@@ -184,37 +183,27 @@ function setupBoard() {
 
 function addBlocksToBoard(shape) {
   //go through all blocks in shape and copy to board[][]
-  board[0][0] = {
-    x: 0,
-    y: 20,
-    c: color("green")
-  },
-    board[0][1] = {
-      x: 2,
-      y: 20,
-      c: color("green")
-    },
-    board[0][2] = {
-      x: 1,
-      y: 20,
-      c: color("green")
-    },
-    board[0][3] = {
-      x: -1,
-      y: 20,
-      c: color("green")
-    }
-
+  board[10][0] = color("green");
+  board[10][1] = color("pink");
+  board[10][2] = color("green");
+  board[10][20] = color("green");
 }
 
 function drawBoard() {
-  for (var row of board) {
-    for (var block of row) {
-      //if(frameCount < 100) print(block);
-      fill(block.c);
-      rect(block.x * blockSize, block.y * blockSize, blockSize, blockSize);
+  for (var row in board) { 
+    for (var column in board[row]) {
+
+      if (board[row][column]) {
+        fill(board[row][column]);
+        rect((int(column) + round(boundaries.l)) * blockSize, row * blockSize, blockSize, blockSize);
+      }
     }
   }
+}
+
+function printif(){
+  if(frameCount < 10)
+  print(arguments)
 }
 
 function detectCrash() {
