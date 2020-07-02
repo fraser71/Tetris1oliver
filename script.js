@@ -36,7 +36,7 @@ function draw() {
     moveShape(fallingShape, 0, 1);
   }
   rotateShape();
-  addBlocks();
+  addBlocksToBoard();
   // 5. draw the board
   drawBoard();
   // fill(0)
