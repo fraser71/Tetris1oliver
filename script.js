@@ -59,16 +59,21 @@ function draw() {
 
 
 function drawBackground() {
-  background(50, 0, 255);
+  background(50, 20, 205);
   translate(width / 2, blockSize);
 }
 
-function drawShape() {
+function drawShape(shape) {
   var block;
-  for (block in fallingShape) {
-    fill(fallingShape[block].c);
-    rect(fallingShape[block].x * blockSize, fallingShape[block].y * blockSize, blockSize, blockSize);
-    //print(block);
+  for (block in shape) {
+    fill(shape[block].c);
+    rect(shape[block].x * blockSize, shape[block].y * blockSize, blockSize, blockSize);
+    if(detectCrash(shape)) {
+      fill(140, 102, 153);
+      textSize(32);
+      text('Game Over',3 * blockSize, 6 * blockSize);
+    noLoop()  
+    }
   }
 }
 
@@ -96,23 +101,23 @@ function createNewShape() {
   fallingShape = [
     {
       x: 0,
-      y: 0,
-      c: color("red")
-    },
-    {
-      x: 1,
-      y: 0,
-      c: color("red")
+      y: 1,
+      c: color("lime")
     },
     {
       x: -1,
-      y: 0,
-      c: color("red")
+      y: 1,
+      c: color("lime")
     },
     {
-      x: 0,
+      x: 1,
       y: 1,
-      c: color("red")
+      c: color("lime")
+    },
+    {
+      x: 2,
+      y: 1,
+      c: color("lime")
     }
   ];
 }
@@ -168,7 +173,7 @@ function rotateShape(shape, degrees) {
       continue;
     }
     shape[block] = rotatePoint(shape[0], shape[block], degrees);
-    if (isOverBoundary(shape) || detectCrash(fallingShape)) {
+    if (isOverBoundary(shape) || detectCrash(shape)) {
       shape[block] = rotatePoint(shape[0], shape[block], -degrees);
       return true;
     }
