@@ -9,7 +9,8 @@ var boundaries = {
   r: 10.5,
   b: 20.5
 }
-var fallingShape = []  // This is a NON-shape <fallingShape.length == 0> 
+var newShape;
+var fallingShape = [];  // This is a NON-shape <fallingShape.length == 0> 
 var board = [];        // This is an empty board
 var blockSize = 20;
 var moveFrameCount = 60;
@@ -68,13 +69,15 @@ function drawShape(shape) {
   for (block in shape) {
     fill(shape[block].c);
     rect(shape[block].x * blockSize, shape[block].y * blockSize, blockSize, blockSize);
-    if(detectCrash(shape)) {
-      fill(140, 102, 153);
-      textSize(32);
-      text('Game Over',3 * blockSize, 6 * blockSize);
-    noLoop()  
-    }
   }
+}
+
+function copyObject(library, shape, newShape) {
+  for (var property in library[newShape]) {
+    shape[property] = library[newShape][property]
+    print(shape)
+  }
+
 }
 
 function isOverBoundary(shape) {
@@ -98,28 +101,14 @@ function isReadyToMove() {
 }
 
 function createNewShape() {
-  fallingShape = [
-    {
-      x: 0,
-      y: 1,
-      c: color("lime")
-    },
-    {
-      x: -1,
-      y: 1,
-      c: color("lime")
-    },
-    {
-      x: 1,
-      y: 1,
-      c: color("lime")
-    },
-    {
-      x: 2,
-      y: 1,
-      c: color("lime")
-    }
-  ];
+  newShape = floor(random(0, shapeLibrary.length));
+  copyObject(shapeLibrary, fallingShape, newShape)
+  if (detectCrash(fallingShape)) {
+    fill(140, 102, 153);
+    textSize(32);
+    text('Game Over', 3 * blockSize, 6 * blockSize);
+    noLoop()
+  }
 }
 
 
@@ -217,6 +206,7 @@ function printif(...args) {
 function detectCrash(shape) {
   for (var block in shape) {
     if (board[shape[block].y][shape[block].x - round(boundaries.l)]) {
+      print(shape[block])
       return true;
     }
   }

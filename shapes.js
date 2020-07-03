@@ -1,157 +1,155 @@
 const shapeLibrary = [
-  // T shape
-  {
-    x: 0,
-    y: 1,
-    c: color("red")
-  },
-  {
-    x: 1,
-    y: 1,
-    c: color("red")
-  },
-  {
-    x: -1,
-    y: 1,
-    c: color("red")
-  },
-  {
-    x: 0,
-    y: 2,
-    c: color("red")
-  },
-
-  // L shape 1
-  {
-    x: 0,
-    y: 1,
-    c: color("blue")
-  },
-  {
-    x: 1,
-    y: 1,
-    c: color("blue")
-  },
-  {
-    x: -1,
-    y: 1,
-    c: color("blue")
-  },
-  {
-    x: 1,
-    y: 2,
-    c: color("blue")
-  },
-
-  //J shape
-  {
-    x: 0,
-    y: 1,
-    c: color("green")
-  },
-  {
-    x: 1,
-    y: 1,
-    c: color("green")
-  },
-  {
-    x: -1,
-    y: 1,
-    c: color("green")
-  },
-  {
-    x: -1,
-    y: 2,
-    c: color("green")
-  },
-
-  //Square shape
-  {
-    x: 0,
-    y: 1,
-    c: color("yellow")
-  },
-  {
-    x: 1,
-    y: 1,
-    c: color("yellow")
-  },
-  {
-    x: 0,
-    y: 2,
-    c: color("yellow")
-  },
-  {
-    x: 1,
-    y: 2,
-    c: color("yellow")
-  },
-
-  //S shape
-  {
-    x: 0,
-    y: 1,
-    c: color("cyan")
-  },
-  {
-    x: 1,
-    y: 1,
-    c: color("cyan")
-  },
-  {
-    x: -1,
-    y: 2,
-    c: color("cyan")
-  },
-  {
-    x: 0,
-    y: 2,
-    c: color("cyan")
-  },
-
-  //Z shape
-  {
-    x: 0,
-    y: 1,
-    c: color("pink")
-  },
-  {
-    x: 1,
-    y: 1,
-    c: color("pink")
-  },
-  {
-    x: 2,
-    y: 2,
-    c: color("pink")
-  },
-  {
-    x: 1,
-    y: 2,
-    c: color("pink")
-  },
-
-  //I shape
-  {
+  [// T shape
+    {
       x: 0,
       y: 1,
-      c: color("lime")
-    },
-    {
-      x: -1,
-      y: 1,
-      c: color("lime")
+      c: "red"
     },
     {
       x: 1,
       y: 1,
-      c: color("lime")
+      c: "red"
+    },
+    {
+      x: -1,
+      y: 1,
+      c: "red"
+    },
+    {
+      x: 0,
+      y: 2,
+      c: "red"
+    }],
+  [
+    // L shape 1
+    {
+      x: 0,
+      y: 1,
+      c: "blue"
+    },
+    {
+      x: 1,
+      y: 1,
+      c: "blue"
+    },
+    {
+      x: -1,
+      y: 1,
+      c: "blue"
+    },
+    {
+      x: 1,
+      y: 2,
+      c: "blue"
+    }],
+
+  [//J shape
+    {
+      x: 0,
+      y: 1,
+      c: "green"
+    },
+    {
+      x: 1,
+      y: 1,
+      c: "green"
+    },
+    {
+      x: -1,
+      y: 1,
+      c: "green"
+    },
+    {
+      x: -1,
+      y: 2,
+      c: "green"
+    }],
+
+  [//Square shape
+    {
+      x: 0,
+      y: 1,
+      c: "yellow"
+    },
+    {
+      x: 1,
+      y: 1,
+      c: "yellow"
+    },
+    {
+      x: 0,
+      y: 2,
+      c: "yellow"
+    },
+    {
+      x: 1,
+      y: 2,
+      c: "yellow"
+    }],
+
+  [//S shape
+    {
+      x: 0,
+      y: 1,
+      c: "cyan"
+    },
+    {
+      x: 1,
+      y: 1,
+      c: "cyan"
+    },
+    {
+      x: -1,
+      y: 2,
+      c: "cyan"
+    },
+    {
+      x: 0,
+      y: 2,
+      c: "cyan"
+    }],
+
+  [//Z shape
+    {
+      x: 0,
+      y: 1,
+      c: "pink"
+    },
+    {
+      x: 1,
+      y: 1,
+      c: "pink"
     },
     {
       x: 2,
-      y: 1,
-      c: color("lime")
+      y: 2,
+      c: "pink"
     },
+    {
+      x: 1,
+      y: 2,
+      c: "pink"
+    }],
 
-    
+  [//I shape
+    {
+      x: 0,
+      y: 2,
+      c: "lime"
+    },
+    {
+      x: -1,
+      y: 2,
+      c: "lime"
+    },
+    {
+      x: 1,
+      y: 2,
+      c: "lime"
+    },
+    {
+      x: 2,
+      y: 2,
+      c: "lime"
+    }]
 ];
