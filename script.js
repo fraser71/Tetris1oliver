@@ -111,7 +111,7 @@ function createNewShape() {
   if (detectCrash(newShapeCopy)) {
     fill(140, 102, 153);
     textSize(32);
-    text('Game Over', 3 * blockSize, 6 * blockSize);
+    text('Game Over', 0, 22 * blockSize);
     noLoop()
   }else{
     fallingShape = newShapeCopy;
