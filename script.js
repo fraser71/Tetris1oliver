@@ -19,7 +19,6 @@ function setup() {
   rectMode(CENTER);
   angleMode(DEGREES);
   setupBoard();
-  printif("board", board)
 }
 
 function draw() {
@@ -31,13 +30,15 @@ function draw() {
     createNewShape()
   }
   // 3. Move the shape down if it is time to move
-  isReadyToMove();
   if (isReadyToMove()) {
-    moveShape(fallingShape, 0, 1);
+    if (!moveShape(fallingShape, 0, 1)) {
+      addBlocksToBoard(fallingShape)
+      fallingShape = []
+    }
   }
-  rotateShape();
-  addBlocksToBoard();
+
   // 5. draw the board
+  addBlocksToBoard();
   drawBoard();
 
   // 6. draw the shape
@@ -119,22 +120,18 @@ function createNewShape() {
 
 function moveShape(shape, rowsX, rowsY) {
   for (block in shape) {
-    shape[block].x += rowsX
-    shape[block].y += rowsY
+    shape[block].x += rowsX;
+    shape[block].y += rowsY;
   }
   // 4. if the shape couldn't move then move the shape from fallingShape to the board
-  if (isOverBoundary(fallingShape)) {
+  if (isOverBoundary(fallingShape) || detectCrash(fallingShape)) {
     for (block in shape) {
-      shape[block].x -= rowsX
-      shape[block].y -= rowsY
+      shape[block].x -= rowsX;
+      shape[block].y -= rowsY;
     }
+    return false;
   }
-  if (detectCrash(fallingShape)) {
-    for (block in shape) {
-      shape[block].x -= rowsX
-      shape[block].y -= rowsY
-    }
-  }
+  return true;
 }
 
 
@@ -171,7 +168,7 @@ function rotateShape(shape, degrees) {
       continue;
     }
     shape[block] = rotatePoint(shape[0], shape[block], degrees);
-    if (isOverBoundary(shape)) {
+    if (isOverBoundary(shape) || detectCrash(fallingShape)) {
       shape[block] = rotatePoint(shape[0], shape[block], -degrees);
       return true;
     }
@@ -189,10 +186,10 @@ function setupBoard() {
 
 function addBlocksToBoard(shape) {
   //go through all blocks in shape and copy to board[][]
-  board[10][0] = color("green");
-  board[10][1] = color("pink");
-  board[10][2] = color("green");
-  board[10][20] = color("green");
+  for (var block in shape) {
+    board[shape[block].y][shape[block].x - round(boundaries.l)] = shape[block].c
+  }
+
 }
 
 function drawBoard() {
@@ -215,10 +212,10 @@ function printif(...args) {
 function detectCrash(shape) {
   for (var block in shape) {
     if (board[shape[block].y][shape[block].x - round(boundaries.l)]) {
-      return true
+      return true;
     }
   }
-  return false
+  return false;
 }
 
 function checkForFullRow() {
