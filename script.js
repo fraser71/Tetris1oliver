@@ -19,6 +19,7 @@ function setup() {
   rectMode(CENTER);
   angleMode(DEGREES);
   setupBoard();
+  printif("board", board)
 }
 
 function draw() {
@@ -38,8 +39,7 @@ function draw() {
   addBlocksToBoard();
   // 5. draw the board
   drawBoard();
-  // fill(0)
-  // rect(board[0].x, board[0].y, 20, 20)
+
   // 6. draw the shape
   drawShape(fallingShape);
 
@@ -129,6 +129,12 @@ function moveShape(shape, rowsX, rowsY) {
       shape[block].y -= rowsY
     }
   }
+  if (detectCrash(fallingShape)) {
+    for (block in shape) {
+      shape[block].x -= rowsX
+      shape[block].y -= rowsY
+    }
+  }
 }
 
 
@@ -190,7 +196,7 @@ function addBlocksToBoard(shape) {
 }
 
 function drawBoard() {
-  for (var row in board) { 
+  for (var row in board) {
     for (var column in board[row]) {
 
       if (board[row][column]) {
@@ -201,13 +207,18 @@ function drawBoard() {
   }
 }
 
-function printif(){
-  if(frameCount < 10)
-  print(arguments)
+function printif(...args) {
+  if (frameCount < 10)
+    print(args)
 }
 
-function detectCrash() {
-
+function detectCrash(shape) {
+  for (var block in shape) {
+    if (board[shape[block].y][shape[block].x - round(boundaries.l)]) {
+      return true
+    }
+  }
+  return false
 }
 
 function checkForFullRow() {
