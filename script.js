@@ -12,6 +12,7 @@ var boundaries = {
 var fallingShape = [];  // This is a NON-shape <fallingShape.length == 0> 
 var board = [];        // This is an empty board
 var blockSize = 20;
+var score = 0;
 var moveFrameCount = 60;
 var shapeSpeed;
 
@@ -25,6 +26,7 @@ function setup() {
 function draw() {
   // 1. Clear the screen and setup the background
   drawBackground();
+  displayScore();
   drawBoundaries(boundaries);
   // 2. Create a shape if it doesn't exist
   if (fallingShape.length === 0) {
@@ -35,9 +37,14 @@ function draw() {
     if (!moveShape(fallingShape, 0, 1)) {
       addBlocksToBoard(fallingShape)
       fallingShape = []
+      var scoreLocal = 0;
+      var rowscleared = 0;
       while (checkForFullRow()) {
+        rowscleared += 1;
+        scoreLocal += 100 * rowscleared;
         deleteAndMoveRowDown(checkForFullRow())
       }
+      score += scoreLocal;
 
     }
   }
@@ -50,7 +57,6 @@ function draw() {
   drawShape(fallingShape);
   // if (fallingShape.y > height - blockSize / 2) {
   //   fallingShape.y = 0
-
 }
 
 
@@ -60,16 +66,16 @@ function draw() {
 //~~WARNING~~ YOU ARE NOW ENTERING A RESTRICTED AREA OF DEFINING FUNCTIONS! DO YOU WISH TO CONTINUE?
 
 
-
+function displayScore() {
+  fill(255)
+  text("Score: " + score, 10, 40); //width/10, height - height/10)
+}
 
 function drawBackground() {
   background(50, 20, 205);
   textSize(32);
   fill(250, 100, 0);
-  text('Tetris', width/2 - blockSize, 30);
-  translate(width / 2, blockSize * 4);
-  fill("white");
-  rect(0, boundaries.b * blockSize / 2, (boundaries.r - boundaries.l) * blockSize, boundaries.b * blockSize)
+  text('Tetris', width / 2 - blockSize, 30);
 }
 
 function drawShape(shape) {
@@ -246,7 +252,11 @@ function deleteAndMoveRowDown(row) {
 }
 
 function drawBoundaries(boundaries) {
+  translate(width / 2, blockSize * 4);
+  fill("white");
+  rect(0, boundaries.b * blockSize / 2, (boundaries.r - boundaries.l) * blockSize, boundaries.b * blockSize)
   strokeWeight(4);
+
   //left
   line(boundaries.l * blockSize, 0 * blockSize, boundaries.l * blockSize, boundaries.b * blockSize);
   //right
@@ -258,7 +268,11 @@ function drawBoundaries(boundaries) {
 function keyPressed() {
   if (keyCode === LEFT_ARROW) { moveShape(fallingShape, -1, 0); }
   if (keyCode === RIGHT_ARROW) { moveShape(fallingShape, 1, 0); }
-  if (keyCode === DOWN_ARROW) { moveShape(fallingShape, 0, 1); }
+  if (keyCode === DOWN_ARROW) {
+    if (moveShape(fallingShape, 0, 1)) {
+      score += 1;
+    }
+  }
   if (keyCode === UP_ARROW) { rotateShape(fallingShape, -90); }
   if (keyCode === 192) { moveShape(fallingShape, 0, -2); }
   //if (keyCode === 82) {restart}
