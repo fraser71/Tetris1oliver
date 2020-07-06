@@ -14,6 +14,7 @@ var board = [];        // This is an empty board
 var blockSize = 20;
 var score = 0;
 var moveFrameCount = 60;
+var speedUpFrameCount = 600;
 var shapeSpeed;
 
 function setup() {
@@ -105,7 +106,11 @@ function isOverBoundary(shape) {
 }
 
 function isReadyToMove() {
-  var remain = frameCount % (moveFrameCount);
+  if(frameCount % speedUpFrameCount == 0){
+    moveFrameCount -= 1;
+    print(moveFrameCount);
+  }
+  var remain = frameCount % moveFrameCount ;
   if (remain === 0) {
     return true;
   }
