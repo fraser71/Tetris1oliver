@@ -106,11 +106,11 @@ function isOverBoundary(shape) {
 }
 
 function isReadyToMove() {
-  if(frameCount % speedUpFrameCount == 0){
+  if (frameCount % speedUpFrameCount == 0) {
     moveFrameCount -= 1;
     print(moveFrameCount);
   }
-  var remain = frameCount % moveFrameCount ;
+  var remain = frameCount % moveFrameCount;
   if (remain === 0) {
     return true;
   }
@@ -186,13 +186,17 @@ function rotateShape(shape, degrees) {
     }
     shape[block] = rotatePoint(shape[0], shape[block], degrees);
   }
-  for (block in shape) {
-    if (isOverBoundary(shape) || detectCrash(shape)) {
+  if (isOverBoundary(shape) || detectCrash(shape)) {
+    for (var block in shape) {
+      //first block is origin
+      if (block == 0) {
+        continue;
+      }
       shape[block] = rotatePoint(shape[0], shape[block], -degrees);
-      return true;
     }
+    return false;
   }
-  return false;
+  return true;
 }
 
 function setupBoard() {
