@@ -1,21 +1,22 @@
 //Shape Structure
 // [ 
-//   {x:0, y:0, c:color("red")}, 
+//   {x:0, y:0, c:"red"}, 
 //   ...
 // ] 
-
+var song;
 var boundaries = {
-  l: -10.5,
-  r: 10.5,
+  l: -6.5,
+  r: 6.5,
   b: 20.5
 }
 var fallingShape = [];  // This is a NON-shape <fallingShape.length == 0> 
 var board = [];        // This is an empty board
 var blockSize = 20;
 var moveFrameCount = 60;
+var shapeSpeed;
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(600, 600);
   rectMode(CENTER);
   angleMode(DEGREES);
   setupBoard();
@@ -34,6 +35,10 @@ function draw() {
     if (!moveShape(fallingShape, 0, 1)) {
       addBlocksToBoard(fallingShape)
       fallingShape = []
+      while (checkForFullRow()) {
+        deleteAndMoveRowDown(checkForFullRow())
+      }
+
     }
   }
 
@@ -43,7 +48,6 @@ function draw() {
 
   // 6. draw the shape
   drawShape(fallingShape);
-
   // if (fallingShape.y > height - blockSize / 2) {
   //   fallingShape.y = 0
 
@@ -60,7 +64,10 @@ function draw() {
 
 function drawBackground() {
   background(50, 20, 205);
-  translate(width / 2, blockSize);
+  textSize(32);
+  fill(250, 100, 0);
+  text('Tetris', width/2 - blockSize, 30);
+  translate(width / 2, blockSize * 4);
   fill("white");
   rect(0, boundaries.b * blockSize / 2, (boundaries.r - boundaries.l) * blockSize, boundaries.b * blockSize)
 }
@@ -83,7 +90,7 @@ function copyObject(object) {
 
 function isOverBoundary(shape) {
   for (var block in shape) {
-    if (fallingShape[block].x > boundaries.r || fallingShape[block].x < boundaries.l || fallingShape[block].y > boundaries.b) {
+    if (shape[block].x > boundaries.r || shape[block].x < boundaries.l || shape[block].y > boundaries.b) {
       return true;
     }
 
@@ -92,7 +99,7 @@ function isOverBoundary(shape) {
 }
 
 function isReadyToMove() {
-  var remain = frameCount % moveFrameCount;
+  var remain = frameCount % (moveFrameCount);
   if (remain === 0) {
     return true;
   }
@@ -108,12 +115,13 @@ function createNewShape() {
   for (var block of newShape) {
     newShapeCopy.push(copyObject(block));
   }
+
   if (detectCrash(newShapeCopy)) {
     fill(140, 102, 153);
     textSize(32);
     text('Game Over', 0, 22 * blockSize);
     noLoop()
-  }else{
+  } else {
     fallingShape = newShapeCopy;
   }
 }
@@ -137,7 +145,7 @@ function moveShape(shape, rowsX, rowsY) {
 
 
 function rotatePoint(origin, point, angle) {
-  //print(qx, qy);
+
   /*
   Rotate a point counterclockwise by a given angle around a given origin.
   The angle should be given in radians.
@@ -146,10 +154,8 @@ function rotatePoint(origin, point, angle) {
 
   var ox = origin.x;
   var oy = origin.y;
-  //print(origin);
   var sx = point.x;
   var sy = point.y;
-  //print(point);
   var qx = ox + cos(angle) * (sx - ox) - sin(angle) * (sy - oy);
   var qy = oy + sin(angle) * (sx - ox) + cos(angle) * (sy - oy);
 
@@ -158,7 +164,6 @@ function rotatePoint(origin, point, angle) {
     y: round(qy),
     c: point.c
   };
-  //print(answer);
   return answer;
 }
 
@@ -169,6 +174,8 @@ function rotateShape(shape, degrees) {
       continue;
     }
     shape[block] = rotatePoint(shape[0], shape[block], degrees);
+  }
+  for (block in shape) {
     if (isOverBoundary(shape) || detectCrash(shape)) {
       shape[block] = rotatePoint(shape[0], shape[block], -degrees);
       return true;
@@ -205,16 +212,10 @@ function drawBoard() {
   }
 }
 
-function printif(...args) {
-  if (frameCount < 10)
-    print(args)
-}
-
 function detectCrash(shape) {
-  
+
   for (var block in shape) {
     if (board[shape[block].y][shape[block].x - round(boundaries.l)]) {
-      print(shape[block])
       return true;
     }
   }
@@ -222,15 +223,26 @@ function detectCrash(shape) {
 }
 
 function checkForFullRow() {
-
+  for (var row in board) {
+    if (nonEmptyLength(board[row]) === boundaries.r - boundaries.l) {
+      return row;
+    }
+  }
+  return false;
 }
 
-function deleteFullRow() {
-
+function nonEmptyLength(rowArray) {
+  var countOfFullSpaces = 0;
+  for (var col in rowArray) {
+    countOfFullSpaces += 1;
+  }
+  return countOfFullSpaces;
 }
 
-function moveRowsDown() {
 
+function deleteAndMoveRowDown(row) {
+  board.splice(row, 1)
+  board.unshift([])
 }
 
 function drawBoundaries(boundaries) {
@@ -244,11 +256,10 @@ function drawBoundaries(boundaries) {
 }
 
 function keyPressed() {
-  //print("keypressed")
   if (keyCode === LEFT_ARROW) { moveShape(fallingShape, -1, 0); }
   if (keyCode === RIGHT_ARROW) { moveShape(fallingShape, 1, 0); }
   if (keyCode === DOWN_ARROW) { moveShape(fallingShape, 0, 1); }
   if (keyCode === UP_ARROW) { rotateShape(fallingShape, -90); }
   if (keyCode === 192) { moveShape(fallingShape, 0, -2); }
-  if (keyCode === 82) { /*restart */ }
+  //if (keyCode === 82) {restart}
 }

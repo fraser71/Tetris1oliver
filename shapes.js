@@ -116,12 +116,12 @@ const shapeLibrary = [
       c: "pink"
     },
     {
-      x: 1,
+      x: -1,
       y: 1,
       c: "pink"
     },
     {
-      x: 2,
+      x: 0,
       y: 2,
       c: "pink"
     },
